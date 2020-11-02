@@ -2,9 +2,12 @@ package com.example.tenkeybeats;
 
 import android.media.AudioAttributes;
 import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,6 +20,25 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            getWindow().setDecorFitsSystemWindows(false);
+            WindowInsetsController controller = getWindow().getInsetsController();
+            if (controller != null) {
+                controller.hide(WindowInsets.Type.statusBars()
+                        | WindowInsets.Type.navigationBars());
+                controller.setSystemBarsBehavior(
+                        WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+            }
+        } else {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        }
 
         findViewById(R.id.button1).setOnTouchListener(this);
         findViewById(R.id.button2).setOnTouchListener(this);
@@ -51,44 +73,30 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                switch (view.getId()) {
-                    case R.id.button1:
-                        soundPool.play(sound1, 1f, 1f, 0, 0, 1);
-                        break;
-                    case R.id.button2:
-                        soundPool.play(sound2, 1f, 1f, 0, 0, 1);
-                        break;
-                    case R.id.button3:
-                        soundPool.play(sound3, 1f, 1f, 0, 0, 1);
-                        break;
-                    case R.id.button4:
-                        soundPool.play(sound4, 1f, 1f, 0, 0, 1);
-                        break;
-                    case R.id.button5:
-                        soundPool.play(sound5, 1f, 1f, 0, 0, 1);
-                        break;
-                    case R.id.button6:
-                        soundPool.play(sound6, 1f, 1f, 0, 0, 1);
-                        break;
-                    case R.id.button7:
-                        soundPool.play(sound7, 1f, 1f, 0, 0, 1);
-                        break;
-                    case R.id.button8:
-                        soundPool.play(sound8, 1f, 1f, 0, 0, 1);
-                        break;
-                    case R.id.button9:
-                        soundPool.play(sound9, 1f, 1f, 0, 0, 1);
-                        break;
-                    case R.id.button0:
-                        soundPool.play(sound0, 1f, 1f, 0, 0, 1);
-                        break;
-                    default:
-                }
-                break;
-            default:
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            if (view.getId() == R.id.button1) {
+                soundPool.play(sound1, 1f, 1f, 0, 0, 1);
+            } else if (view.getId() == R.id.button2) {
+                soundPool.play(sound2, 1f, 1f, 0, 0, 1);
+            } else if (view.getId() == R.id.button3) {
+                soundPool.play(sound3, 1f, 1f, 0, 0, 1);
+            } else if (view.getId() == R.id.button4) {
+                soundPool.play(sound4, 1f, 1f, 0, 0, 1);
+            } else if (view.getId() == R.id.button5) {
+                soundPool.play(sound5, 1f, 1f, 0, 0, 1);
+            } else if (view.getId() == R.id.button6) {
+                soundPool.play(sound6, 1f, 1f, 0, 0, 1);
+            } else if (view.getId() == R.id.button7) {
+                soundPool.play(sound7, 1f, 1f, 0, 0, 1);
+            } else if (view.getId() == R.id.button8) {
+                soundPool.play(sound8, 1f, 1f, 0, 0, 1);
+            } else if (view.getId() == R.id.button9) {
+                soundPool.play(sound9, 1f, 1f, 0, 0, 1);
+            } else if (view.getId() == R.id.button0) {
+                soundPool.play(sound0, 1f, 1f, 0, 0, 1);
+            }
         }
+        view.performClick();
         return false;
     }
 }
